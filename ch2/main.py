@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, status, Path, Body, Cookie
+from fastapi import FastAPI, Query, status, Path, Body, Cookie, Header
 from enum import Enum
 from typing import Annotated, Optional
 from pydantic import AfterValidator, BaseModel, Field
@@ -214,3 +214,17 @@ app = FastAPI()
 #         "message": "No session ID provided. Showing generic recommendations."
 #     }
 
+#<===============HEADERS PARAMETER==================>
+# @app.get("/products")
+# def get_products(user_agent: Annotated[Optional[str], Header()] = None):
+#     if user_agent:
+#         return {
+#             "user_agent": user_agent,
+#             "message": "Product list retrieved successfully"
+#         }
+#     else:
+#         return {
+#             "message": "Product list retrieved successfully without user agent"
+#         }
+
+#<===============RETURN TYPE==================>
