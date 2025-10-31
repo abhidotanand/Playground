@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query, status, Path
 from enum import Enum
 from typing import Annotated
-from pydantic import AfterValidator
+from pydantic import AfterValidator, BaseModel
 
 app = FastAPI()
 
@@ -107,3 +107,21 @@ app = FastAPI()
 # @app.get("/items/")
 # def read_item(item_id: Annotated[int, AfterValidator(check_valid_id)]):
 #     return {"item_id": item_id, "message": "Item retrieved successfully"}
+
+#<===============PYDANTIC BASEMODEL EXAMPLE==================>
+class Product(BaseModel):
+    name: str
+    price: float
+    stock: int | None = None
+
+class Seller(BaseModel):
+    name: str
+    rating: float
+
+@app.post("/products/")
+def create_product(product: Product, seller: Seller):
+    return {
+        "product": product,
+        "seller": seller,
+        "message": "Product and seller created successfully"
+    }
