@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Query, status, Path
+from fastapi import FastAPI, Query, status, Path, Body, Cookie
 from enum import Enum
-from typing import Annotated
-from pydantic import AfterValidator, BaseModel
+from typing import Annotated, Optional
+from pydantic import AfterValidator, BaseModel, Field
 
 app = FastAPI()
 
@@ -108,20 +108,109 @@ app = FastAPI()
 # def read_item(item_id: Annotated[int, AfterValidator(check_valid_id)]):
 #     return {"item_id": item_id, "message": "Item retrieved successfully"}
 
-#<===============PYDANTIC BASEMODEL EXAMPLE==================>
-class Product(BaseModel):
-    name: str
-    price: float
-    stock: int | None = None
+#<===============PYDANTIC BASEMODEL/FIELD EXAMPLE==================>
+# class Product(BaseModel):
+#     name: str
+#     price: float
+#     stock: Optional[int] = 0
 
-class Seller(BaseModel):
-    name: str
-    rating: float
+# class Seller(BaseModel):
+#     name: str = Field(
+#         min_length=3,
+#         max_length=50,
+#         description="The name of the seller",
+#         example="John's Store",
+#     )
+#     rating: float = Field(
+#         ge=0,
+#         le=5,
+#         description="The rating of the seller",
+#         example=4.5,
+#     )
 
-@app.post("/products/")
-def create_product(product: Product, seller: Seller):
-    return {
-        "product": product,
-        "seller": seller,
-        "message": "Product and seller created successfully"
-    }
+# @app.post("/products/")
+# def create_product(product: Product, seller: Seller, sec_key: Annotated[str, Body()]):
+#     return {
+#         "product": product,
+#         "seller": seller,
+#         "message": "Product and seller created successfully",
+#         "security key": sec_key
+#     }
+
+#<===============NESTED MODEL AND EXAMPLES EXAMPLE==================>
+# class Category(BaseModel):
+#     name: str = Field(
+#         min_length=3,
+#         max_length=50,
+#         examples=["Electronics", "Books", "Clothing"]
+#     )
+#     description: str = Field(
+#         max_length=300,
+#         examples=["Category for electronic items", "Category for books", "Category for clothing items"]
+#     )
+
+# class Product(BaseModel):
+#     name: str = Field(
+#         min_length=3,
+#         max_length=100,
+#         description="The name of the product",
+#         examples=["Smartphone", "Laptop", "Headphones"]
+#     )
+#     price: float = Field(
+#         gt=0,
+#         description="The price of the product",
+#         examples=[199.99, 499.99, 29.99]
+#     )
+#     stock: Optional[int] = Field(
+#         default=0,
+#         ge=0,
+#         description="The available stock of the product",
+#         examples=[10, 50, 100]
+#     )
+#     category: list[Category] = Field(
+#         description="List of categories the product belongs to",
+#         default=None,
+#         examples=[
+#             {"name": "Electronics", "description": "Category for electronic items"},
+#             {"name": "Gadgets", "description": "Category for gadgets and devices"}
+#         ]   
+#     )
+
+# @app.post("/products/")
+# def create_product(product: Product):
+#     return {
+#         "product": product,
+#         "message": "Product created successfully with categories"
+#     }
+
+#<===============COOKIES EXAMPLE==================>
+# @app.post("/products/recommendations/")
+# def create_product(session_id: Annotated[Optional[str], Cookie()] = None):
+#     if session_id:
+#         return {
+#             "session_id": session_id,
+#             "message": "Recommendations based on your session"
+#         }
+#     else:
+#         return {
+#             "message": "No session ID provided. Showing generic recommendations."
+#         }
+
+# class ProductRecommendations(BaseModel):
+#     session_id: Optional[str] = None
+#     product_category: Optional[str] = None
+#     tracking_id: Optional[str] = None
+
+# @app.post("/products/recommendations/")
+# def create_product(cookie: Annotated[ProductRecommendations, Cookie()] = None):
+#     if cookie.session_id:
+#         if cookie.product_category:
+#             return {
+#                 "session_id": cookie.session_id,
+#                 "product_category": cookie.product_category,
+#                 "message": "Recommendations based on your session and product category"
+#             }
+#     return {
+#         "message": "No session ID provided. Showing generic recommendations."
+#     }
+
