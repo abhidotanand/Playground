@@ -55,8 +55,8 @@ app = FastAPI()
 
 # @app.post("/uploadfile/")
 # async def upload_file(file: Annotated[UploadFile, File()]):
-#     file_location = f"uploads/{str(uuid.uuid4())}.bin"
-#     os.makedirs("uploads", exist_ok=True)
+#     file_location = f"ch2/uploads/{str(uuid.uuid4())}.bin"
+#     os.makedirs("ch2/uploads", exist_ok=True)
 #     with open(file_location, "wb") as buffer:
 #         shutil.copyfileobj(file.file, buffer)
 #     return {"info": f"file saved at {file_location}"}
@@ -77,10 +77,10 @@ app = FastAPI()
 
 # @app.post("/uploadfiles/")
 # async def upload_files(files: Annotated[list[UploadFile], File()]):
-#     os.makedirs("uploads", exist_ok=True)
+#     os.makedirs("ch2/uploads", exist_ok=True)
 #     file_locations = []
 #     for file in files:
-#         file_location = f"uploads/{str(uuid.uuid4())}_{file.filename}"
+#         file_location = f"ch2/uploads/{str(uuid.uuid4())}_{file.filename}"
 #         with open(file_location, "wb") as buffer:
 #             shutil.copyfileobj(file.file, buffer)
 #         file_locations.append(file_location)
