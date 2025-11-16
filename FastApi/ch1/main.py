@@ -7,25 +7,25 @@ app = FastAPI()
 
 
 #<===============HTTP PROTOCOLS==================>
-# @app.get("/")
-# def home():
-#     return {"message": "Hello, World!"}
+@app.get("/")
+def home():
+    return {"message": "Hello, World!"}
 
-# @app.get("/items/{item_id}")
-# def get_item(item_id: int):
-#     return {"item_id": item_id}
+@app.get("/items/{item_id}")
+def get_item(item_id: int):
+    return {"item_id": item_id}
 
-# @app.post("/items/")
-# def create_item(name: dict):
-#     return {"name": name, "message": "Item created successfully!"}
+@app.post("/items/")
+def create_item(name: dict):
+    return {"name": name, "message": "Item created successfully!"}
 
-# @app.put("/items/{item_id}")
-# def update_item(item_id: int, name: dict):
-#     return {"item_id": item_id, "name": name, "message": "Item updated successfully!"}
+@app.put("/items/{item_id}")
+def update_item(item_id: int, name: dict):
+    return {"item_id": item_id, "name": name, "message": "Item updated successfully!"}
 
-# @app.delete("/items/{item_id}")
-# def delete_item(item_id: int):
-#     return {"item_id": item_id, "message": "Item deleted successfully!"}
+@app.delete("/items/{item_id}")
+def delete_item(item_id: int):
+    return {"item_id": item_id, "message": "Item deleted successfully!"}
 
 #<===============ENUM==================>
 # class ProductName(str, Enum):
