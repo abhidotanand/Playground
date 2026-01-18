@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from typing import Annotated
 
 app = FastAPI()
 
@@ -9,7 +10,8 @@ products = [
 ]
 
 @app.get("/products")
-async def get_products(name: str | None = None, max_price: float | None = None):
+async def get_products(name: Annotated[str | None, Query(max_length=5)] = None
+                       , max_price: Annotated[float | None, Query(gt=0, lt=10000)] = None):
     filtered_products = products
     if name:
         filtered_products = [product for product in filtered_products if name.lower() in product["name"].lower()]
