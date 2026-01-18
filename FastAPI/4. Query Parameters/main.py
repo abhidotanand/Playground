@@ -1,0 +1,18 @@
+from fastapi import FastAPI
+
+app = FastAPI()
+
+products = [
+    {"id": 1, "name": "Laptop", "price": 999.99},
+    {"id": 2, "name": "Smartphone", "price": 499.99},
+    {"id": 3, "name": "Tablet", "price": 299.99},
+]
+
+@app.get("/products")
+async def get_products(name: str | None = None, max_price: float | None = None):
+    filtered_products = products
+    if name:
+        filtered_products = [product for product in filtered_products if name.lower() in product["name"].lower()]
+    if max_price is not None:
+        filtered_products = [product for product in filtered_products if product["price"] <= max_price]
+    return filtered_products
