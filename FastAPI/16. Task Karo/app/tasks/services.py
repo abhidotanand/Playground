@@ -1,5 +1,5 @@
 from app.db import config
-from app.tasks.models import Task, TaskOut
+from app.tasks.models import Task, TaskOut, TaskUpdate, TaskCreate
 from sqlmodel import Session, select
 from fastapi import HTTPException, status
 
@@ -22,7 +22,7 @@ def get_tasks() -> list[TaskOut]:
         tasks = session.exec(select(Task)).all()
         return tasks
 
-def update_task(task_id: int, updated_task: Task) -> TaskOut:
+def update_task(task_id: int, updated_task: TaskUpdate) -> TaskOut:
     with Session(config.engine) as session:
         task = session.get(Task, task_id)
         if not task:

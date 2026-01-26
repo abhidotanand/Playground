@@ -32,8 +32,7 @@ def get_single_task(task_id: int):
 
 @app.put("/task/{task_id}", status_code=status.HTTP_200_OK, response_model=TaskOut)
 def update_existing_task(task_id: int, updated_task: TaskUpdate):
-    task_data = Task(title=updated_task.title, description=updated_task.description, completed=updated_task.completed)
-    updated = update_task(task_id, task_data)
+    updated = update_task(task_id, updated_task)
     return updated
 
 @app.delete("/task/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
